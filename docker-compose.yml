@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  wanbootwebservices:
+    image: crmbl/wanbootwebservices
+    build:
+      context: .
+      dockerfile: WanBootWebServices/Dockerfile

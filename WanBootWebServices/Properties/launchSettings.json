@@ -1,9 +1,13 @@
 {
+  "Kestrel": {
+    "launchUrl": "http://localhost:5000/api",
+    "applicationUrl": "http://localhost:5000/"
+  },
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:54706/",
+      "applicationUrl": "http://localhost/",
       "sslPort": 0
     }
   },
@@ -11,19 +15,19 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/wan",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
     "WanBootWebServices": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/wan",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
-      "applicationUrl": "http://localhost:54707/"
+      "applicationUrl": "http://localhost/"
     }
   }
 }

@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  wanbootwebservices:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+    ports:
+      - "5000:5000"
