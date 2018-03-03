@@ -56,7 +56,7 @@ namespace WanBootWebServices.Controllers
 		    var response = _httpContextAccessor.HttpContext.Response;
 		    response.Headers.Add("Content-Type", "text/event-stream");
 			var ping = new PPing();
-			var result = ping.Send(_computerAddress, 30000);
+			var result = ping.Send(_computerAddress, 10000);
 			await response.WriteAsync(result != null ? result.Status.ToString() : "error machine not reachable");
 	    }
 
