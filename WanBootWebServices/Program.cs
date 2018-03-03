@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace WanBootWebServices
 {
@@ -26,16 +27,20 @@ namespace WanBootWebServices
 	               .CaptureStartupErrors(true)
 	               .UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
 				   .UseStartup<Startup>()
-				   .UseKestrel()
-	               .UseIISIntegration()
+				   .UseKestrel(SetHost)
+				   .UseIISIntegration()
 				   .Build();
 
-			//options =>
-			//{
-			//options.Listen(IPAddress.Loopback, 5000, listenOptions =>
-			//{
-			//	listenOptions.UseHttps("A GENRERER.pfx", "password");
-			//});
-			//}
+		/// <summary>
+		/// Get the conf file and set the passkey.
+		/// </summary>
+	    private static void SetHost(Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerOptions options)
+	    {
+		    var configuration = (IConfiguration)options.ApplicationServices.GetService(typeof(IConfiguration));
+			options.Listen(IPAddress.Parse("0.0.0.0"), 5000, listenOptions =>
+			{
+				listenOptions.UseHttps("cacert.pfx", configuration["ApplicationSettings:PassApi"]);
+			});
+		}
 	}
 }

@@ -19,13 +19,8 @@ namespace WanBootWebServices
     public class Startup
     {
 		/// <summary>
-		/// Startup method
+		/// Startup method.
 		/// </summary>
-        //public Startup(IConfiguration configuration)
-        //{
-        //    Configuration = configuration;
-        //}
-
 	    public Startup(IHostingEnvironment env)
 	    {
 		    var builder = new ConfigurationBuilder()
@@ -66,10 +61,10 @@ namespace WanBootWebServices
 			services.Configure<ApplicationSettings>(options => Configuration.GetSection("ApplicationSettings").Bind(options));
 	        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 	        services.AddMvc();
-			//services.Configure<MvcOptions>(options =>
-			//{
-			//	options.Filters.Add(new RequireHttpsAttribute());
-			//});
+			services.Configure<MvcOptions>(options =>
+			{
+				options.Filters.Add(new RequireHttpsAttribute());
+			});
 		}
 
 		/// <summary>
@@ -83,8 +78,8 @@ namespace WanBootWebServices
             }
 
 	        app.UseAuthentication();
-	        //var options = new RewriteOptions().AddRedirectToHttps();
-	        //app.UseRewriter(options);
+	        var options = new RewriteOptions().AddRedirectToHttps();
+	        app.UseRewriter(options);
 			app.UseMvc();
 		}
     }

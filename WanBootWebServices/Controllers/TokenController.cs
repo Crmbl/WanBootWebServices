@@ -13,6 +13,7 @@ namespace WanBootWebServices.Controllers
 	/// <summary>
 	/// Api used to create a token to access the web api.
 	/// </summary>
+	[RequireHttps]
 	[Route("api/[controller]")]
 	public class TokenController : Controller
 	{

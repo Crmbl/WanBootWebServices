@@ -13,7 +13,8 @@ namespace WanBootWebServices.Controllers
 	/// <summary>
 	/// Controller for the web api requests.
 	/// </summary>
-    [Route("api/[controller]")]
+	[RequireHttps]
+	[Route("api/[controller]")]
     public class WanController : Controller
 	{
 		/// <summary>

@@ -1,7 +1,6 @@
 FROM microsoft/dotnet:2.0.0-runtime-stretch-arm32v7 AS base
 WORKDIR /app
 EXPOSE 5000
-ENV ASPNETCORE_URLS http://*:5000
 
 FROM microsoft/dotnet:2.0-sdk AS build
 WORKDIR /src

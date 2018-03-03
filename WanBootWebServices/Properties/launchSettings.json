@@ -1,13 +1,17 @@
 {
   "Kestrel": {
-    "launchUrl": "http://localhost:5000/api",
-    "applicationUrl": "http://localhost:5000/"
+    "launchUrl": "https://localhost:5000/api",
+    "applicationUrl": "https://localhost:5000/"
   },
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://localhost/WanBootWebServices",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost/",
+      "applicationUrl": "https://localhost/",
       "sslPort": 0
     }
   },
@@ -27,7 +31,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       },
-      "applicationUrl": "http://localhost/"
+      "applicationUrl": "https://localhost/"
     }
   }
 }
