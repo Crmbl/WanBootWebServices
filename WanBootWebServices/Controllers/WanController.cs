@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -56,7 +57,7 @@ namespace WanBootWebServices.Controllers
 		    var response = _httpContextAccessor.HttpContext.Response;
 		    response.Headers.Add("Content-Type", "text/event-stream");
 			var ping = new PPing();
-			var result = ping.Send(_computerAddress, 10000);
+			var result = ping.Send(_computerAddress, 20000);
 			await response.WriteAsync(result != null ? result.Status.ToString() : "error machine not reachable");
 	    }
 
@@ -69,28 +70,30 @@ namespace WanBootWebServices.Controllers
 		{
 			var response = _httpContextAccessor.HttpContext.Response;
 			response.Headers.Add("Content-Type", "text/event-stream");
-			
-			WOLClass client = new WOLClass();
-			client.Connect(IPAddress.Broadcast, 0x2fff /*port=12287*/ );
-			client.SetClientToBrodcastMode();
 
-			var counter = 0;
-			byte[] bytes = new byte[1024];
-			for (var y = 0; y < 6; y++)
-				bytes[counter++] = 0xFF;
-
-			for (var y = 0; y < 16; y++)
+			using (UdpClient client = new UdpClient())
 			{
-				var i = 0;
-				for (var z = 0; z < 6; z++)
-				{
-					bytes[counter++] = byte.Parse(_computerMacAddress.Substring(i, 2), NumberStyles.HexNumber);
-					i += 2;
-				}
-			}
+				client.Connect(IPAddress.Parse(_computerAddress), 7);
+				client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
 
-			var result = client.Send(bytes, 1024);
-			await response.WriteAsync(result > 0 ? "Success" : "error sending magic packet");
+				var offset = 0;
+				byte[] buffer = new byte[102];
+				for (var y = 0; y < 6; y++)
+					buffer[offset++] = 0xFF;
+
+				for (var y = 0; y < 16; y++)
+				{
+					var i = 0;
+					for (var z = 0; z < 6; z++)
+					{
+						buffer[offset++] = byte.Parse(_computerMacAddress.Substring(i, 2), NumberStyles.HexNumber);
+						i += 2;
+					}
+				}
+
+				var result = client.Send(buffer, 102);
+				await response.WriteAsync(result > 0 ? "Success" : "error sending magic packet");
+			}
 		}
 	}
 }
